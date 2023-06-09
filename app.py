@@ -44,7 +44,7 @@ if uploaded_file:
     output_columns = ['quantity']
     if selected_product is not None:
         df_query = df.query("productName== @selected_product")
-        product_quantity = df_query[output_columns].sum()
+        product_quantity = df_query[output_columns].sum(numeric_only=True)
         st.dataframe(product_quantity)
 
     #  Sales trendline of the product
