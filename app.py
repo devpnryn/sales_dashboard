@@ -4,7 +4,8 @@ import plotly.express as px  # pip install plotly-express
 import streamlit as st  # pip install streamlit
 from streamlit_option_menu import option_menu
 
-st.set_page_config(page_title='SALES FORECAST', page_icon=':bar_chart:', layout='centered')
+st.set_page_config(page_title='SALES FORECAST',
+                   page_icon=':bar_chart:', layout='centered')
 st.markdown('## Sales Forecast')
 
 # --- SIDE BAR ---
@@ -53,7 +54,8 @@ if uploaded_file:
     fig = px.line(product_df,
                   x='transactionDate',
                   y=rolling_mean,
-                  labels={'transactionDate': 'Transaction Date', 'rolling_mean': 'Quantity'},
+                  labels={'transactionDate': 'Transaction Date',
+                          'rolling_mean': 'Quantity'},
                   title=f'{selected_product} Sales Trend')
     fig.update_xaxes(dtick='M1', tickformat='%b-%y')
     st.plotly_chart(fig, use_container_width=True)
@@ -71,7 +73,8 @@ if not df.empty:
         default=df.query("manufacturer==@madeby_")["productName"].unique()
     )
     if 'read_data' not in st.session_state:
-        st.session_state["read_data"] = df.query("productName==@prod_ & manufacturer== @madeby_")
+        st.session_state["read_data"] = df.query(
+            "productName==@prod_ & manufacturer== @madeby_")
 
 if 'read_data' not in st.session_state:
     st.write('upload excel to see it here!')
@@ -87,7 +90,8 @@ elif selected == "Analytics":
     # sales by category
     if df_selection is not None:
         sales_by_product_type = (
-            df_selection.groupby("productName").sum()[["quantity"]]
+            df_selection.groupby("productName").sum(
+                numeric_only=True)[["quantity"]]
         )
         fig_product_sales = px.bar(
             sales_by_product_type,
