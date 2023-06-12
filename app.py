@@ -6,7 +6,7 @@ from streamlit_option_menu import option_menu
 
 st.set_page_config(page_title='Retail Forecast',
                    page_icon=':bar_chart:', layout='centered')
-st.markdown('## Sales Forecast')
+st.markdown('## Retail Forecast')
 
 # --- SIDE BAR ---
 st.sidebar.header("Select Products")
