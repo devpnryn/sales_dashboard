@@ -4,7 +4,7 @@ import plotly.express as px  # pip install plotly-express
 import streamlit as st  # pip install streamlit
 from streamlit_option_menu import option_menu
 
-st.set_page_config(page_title='SALES FORECAST',
+st.set_page_config(page_title='Retail Forecast',
                    page_icon=':bar_chart:', layout='centered')
 st.markdown('## Sales Forecast')
 
