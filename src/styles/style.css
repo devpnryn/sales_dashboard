@@ -36,3 +36,7 @@ div[data-testid="metric-container"] {
 #retail-forecast {
     text-align: center;
 }
+
+label[data-testid="stMetricLabel"] {
+    color: #000;
+}
