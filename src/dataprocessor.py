@@ -8,7 +8,7 @@ import numpy as np
 def get_raw_dataframe(filename) -> pd.DataFrame:
     df = pd.concat(pd.read_excel(filename, sheet_name=None), ignore_index=True)
     df = df.set_index('Sale Date')
-    df.index = pd.to_datetime(df.index, infer_datetime_format=True)
+    df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
     return df
 
 # filters the given df by product name
