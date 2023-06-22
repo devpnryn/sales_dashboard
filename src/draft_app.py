@@ -20,31 +20,6 @@ st.set_page_config(page_title='Retail Forecast',
                    page_icon=':bar_chart:', layout='centered')
 
 
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-
-
-with st.echo():
-    st_lottie("https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
-
-# lottie_hello = load_lottieurl(
-#     "https://assets9.lottiefiles.com/packages/lf20_M9p23l.json")
-
-# st_lottie(
-#     lottie_hello,
-#     speed=1,
-#     reverse=False,
-#     loop=True,
-#     quality="low",  # medium ; high
-#     renderer="svg",  # canvas
-#     height=None,
-#     width=None,
-#     key=None,
-# )
-
 # setting up Page Title
 st.markdown('## Retail Forecast')
 # --- VARIABLES ---
@@ -147,6 +122,7 @@ def draw_trend_line_chart(df, product_column, date_column, quantity_column):
 
 # --- SIDE BAR ---
 st.sidebar.header("Welcome Team")
+# st_lottie("https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 
 
 def add_logo(logo_file):

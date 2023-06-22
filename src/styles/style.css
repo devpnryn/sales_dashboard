@@ -65,7 +65,7 @@ label[data-testid="stMetricLabel"] {
 } */
 
 /* styles for logo */
-[data-testid="stSidebar"] {
+/* [data-testid="stSidebar"] {
     background-image: url('../../assets/logo.png');
     background-repeat: no-repeat;
     padding-top: 120px;
@@ -79,4 +79,4 @@ label[data-testid="stMetricLabel"] {
     font-size: 30px;
     position: relative;
     top: 100px;
-}
+} */
