@@ -2,8 +2,13 @@ import pandas as pd  # pip install pandas openpyxl
 import numpy as np  # pip install numpy
 import plotly.express as px  # pip install plotly-express
 import streamlit as st  # pip install streamlit
+from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import plotly.figure_factory as ff
+# import streamlit_lottie as stl
+
+import json
+import requests
 
 import base64
 # local imports
@@ -13,6 +18,32 @@ import dataprocessor
 # setting favicon and browser tab title
 st.set_page_config(page_title='Retail Forecast',
                    page_icon=':bar_chart:', layout='centered')
+
+
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+
+with st.echo():
+    st_lottie("https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
+
+# lottie_hello = load_lottieurl(
+#     "https://assets9.lottiefiles.com/packages/lf20_M9p23l.json")
+
+# st_lottie(
+#     lottie_hello,
+#     speed=1,
+#     reverse=False,
+#     loop=True,
+#     quality="low",  # medium ; high
+#     renderer="svg",  # canvas
+#     height=None,
+#     width=None,
+#     key=None,
+# )
 
 # setting up Page Title
 st.markdown('## Retail Forecast')
@@ -116,6 +147,35 @@ def draw_trend_line_chart(df, product_column, date_column, quantity_column):
 
 # --- SIDE BAR ---
 st.sidebar.header("Welcome Team")
+
+
+def add_logo(logo_file):
+    bin_str = get_base64_of_bin_file(logo_file)
+    page_bg_img = '''
+     <style>
+            [data-testid="stSidebar"] {
+                background-image: url("data:image/png;base64,%s");
+                background-repeat: no-repeat;
+                padding-top: 120px;
+                background-position: 20px 20px;
+            }
+            [data-testid="stSidebar"]::before {
+                content: "";
+                margin-left: 20px;
+                margin-top: 20px;
+                font-size: 30px;
+                position: relative;
+                top: 100px;
+            }
+        </style>
+    ''' % bin_str
+
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+    return
+
+
+# add_logo('./assets/logo.png')
+
 
 uploaded_file = st.sidebar.file_uploader(
     "Choose a File", type='xlsx')
