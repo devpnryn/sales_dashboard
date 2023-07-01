@@ -7,5 +7,5 @@ openpyxl
 streamlit-lottie
 streamlit-authenticator
 streamlit-extras
-sklearn
+scikit-learn
 xgboost
