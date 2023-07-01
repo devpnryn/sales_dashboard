@@ -23,10 +23,7 @@ from analytics import Analytics
 st.set_page_config(page_title='Retail Forecast',
                    page_icon=':bar_chart:', layout='centered')
 
-# add_logo("assets/Jan-Business_report_1.jpg", height=300)
 
-# st_lottie(
-#     "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 cwd = os.getcwd()
 with open(cwd+'/src/config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -54,6 +51,9 @@ if authentication_status == None:
 if authentication_status:
     # setting up Page Title
     st.markdown('## Retail Forecast')
+    with st.sidebar:
+        st_lottie(
+            "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
     # --- VARIABLES ---
 
     nav_menu = st.container()
