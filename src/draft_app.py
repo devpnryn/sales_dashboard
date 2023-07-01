@@ -25,7 +25,8 @@ st.set_page_config(page_title='Retail Forecast',
 
 # add_logo("assets/Jan-Business_report_1.jpg", height=300)
 
-
+# st_lottie(
+#     "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 cwd = os.getcwd()
 with open(cwd+'/src/config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -42,9 +43,13 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 
 if authentication_status == False:
     st.error("Username or Password is Incorrect")
+    st_lottie(
+        "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 
 if authentication_status == None:
     st.warning("Please enter your username and password")
+    st_lottie(
+        "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 
 if authentication_status:
     # setting up Page Title
@@ -139,8 +144,8 @@ if authentication_status:
     st.sidebar.title(f"Welcome {name}!")
 
     # --- SIDE BAR ---
-    st_lottie(
-        "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
+    # st_lottie(
+    #     "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 
     def add_logo(logo_file):
         bin_str = get_base64_of_bin_file(logo_file)
