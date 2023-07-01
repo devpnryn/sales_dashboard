@@ -6,7 +6,6 @@ from streamlit_lottie import st_lottie
 from streamlit_extras.app_logo import add_logo
 from streamlit_option_menu import option_menu
 import plotly.figure_factory as ff
-# import streamlit_lottie as stl
 import os
 
 import streamlit_authenticator as stauth
@@ -17,6 +16,7 @@ from yaml.loader import SafeLoader
 
 # local imports
 import dataprocessor
+from analytics import Analytics
 
 
 # setting favicon and browser tab title
@@ -87,10 +87,6 @@ if authentication_status:
         return df
 
     # TODO: set the background image without effecting the darkmode
-    # set_png_as_page_bg('assets/Jan-Business_report_1.jpg')
-    # set_png_as_page_bg('assets/analytics-svgrepo-com.svg')
-
-    # To draw scatter plots for comparison
 
     def draw_scatter_plot(df):
         df = df.copy()
@@ -130,8 +126,6 @@ if authentication_status:
         # Display the chart using Streamlit
         st.plotly_chart(fig, use_container_width=True)
 
-    # To draw trend line chart for multiple products
-
     def draw_trend_line_chart(df, product_column, date_column, quantity_column):
         fig = px.line(df, x=df.index.year, y=df[quantity_column].rolling(200).mean(), color=product_column,
                       labels={date_column: 'Sale Date',
@@ -142,12 +136,11 @@ if authentication_status:
         st.plotly_chart(fig, use_container_width=True)
 
     authenticator.logout("Logout", "sidebar")
-    # st.write(f'Welcome *{st.session_state["name"]}*')
     st.sidebar.title(f"Welcome {name}!")
 
     # --- SIDE BAR ---
-    # st.sidebar.header("Welcome Team")
-    # st_lottie("https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
+    st_lottie(
+        "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 
     def add_logo(logo_file):
         bin_str = get_base64_of_bin_file(logo_file)
@@ -252,7 +245,6 @@ if authentication_status:
                     df, st.session_state["selected_products"])
 
                 # creating new feature(Year) on dataframe
-                # st.write(pd.to_datetime(df.index, format="%Y"))
                 df['year'] = pd.to_datetime(df.index, format="%Y")
 
                 # create two tabs for charts
@@ -264,7 +256,6 @@ if authentication_status:
                 # --- Tab 1. Scatter plot to show the distribution
                 with tab1:
                     # TODO: this has to draw scatter plot of different product sales in every year
-                    # st.write(st.session_state["insights_df"])
                     if st.session_state["insights_df"] is None:
                         draw_scatter_plot(df)
                     else:
@@ -286,8 +277,14 @@ if authentication_status:
                 st.subheader('Fast selling products')
 
             # --- UI under Analytics Tab --- #
+            # predictions shown here
             elif st.session_state['current_tab'] == "More Analytics":
                 st.markdown('### analytics')
+
+                # st.write(df)
+
+                st.write(Analytics.predict_data(
+                    df, '2018-08-03', '2019-08-01'))
             #  --- Filters with options --- #
 
     # ---- HIDE STREAMLIT STYLE ----
