@@ -7,7 +7,6 @@ from yaml.loader import SafeLoader
 
 names = ["Bhavya", "Mayank", "Govind", "Naryana"]
 user_names = ["bv321", "mayan451", "govin763", "narayan213"]
-passwords = ["bv#@!", "mayan$%!", "govin&^#", "narayan@!#"]
 # password_hint:username_digits_shifted
 
 # file_path = Path(__file__).parent / "hashed_pw.pkl"
