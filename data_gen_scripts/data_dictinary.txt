@@ -1,0 +1,7 @@
+product:"mouse":
+    {
+        "barnds":["Samsung","Acer","Microsystems","Logitech"]
+        "prices":[500, 1500, 2500],
+        "":
+        },
+        "keyboard":

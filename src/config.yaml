@@ -1,0 +1,25 @@
+credentials:
+  usernames:
+    bhavya:
+      email: bhavya@gmail.com
+      name: Bhavya T
+      password: $2b$12$cwomZT4FqechL6KFa8GDaecZFlcbOLWAmOyNoJnS81ncbKU1Amz6q # To be replaced with hashed password
+    mayank:
+      email: mayank@gmail.com
+      name: mayank sri
+      password: $2b$12$7PMQECWXTM3Ii4KR2VBUHOMFXT1H8iDWP5JBGjtQrHZqRC6IkfeY2 # To be replaced with hashed password
+    govin:
+      email: govind@gmail.com
+      name: govind k
+      password: $2b$12$Q8e2X7SYoSPOZLd6Sk/vruyCxK30Uf1mQfCpEDPbnDH9kocQyh6eq
+    naryana:
+      email: narayana@gmail.com
+      name: narayana d
+      password: $2b$12$2X/csZUS4JN6UCIxlYRVauaNlu0FeSwRjVhYitd2PKNzSXaRnxRmu
+cookie:
+  expiry_days: 30
+  key: retail_dashboard_app # Must be string
+  name: retail_cookie
+preauthorized:
+  emails:
+  - devpnarayana@gmail.com

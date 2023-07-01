@@ -4,4 +4,5 @@ plotly
 streamlit
 streamlit_option_menu
 openpyxl
-streamlit_lottie
+streamlit-lottie
+streamlit-authenticator
