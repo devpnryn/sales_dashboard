@@ -9,8 +9,7 @@ names = ["Bhavya", "Mayank", "Govind", "Naryana"]
 user_names = ["bv321", "mayan451", "govin763", "narayan213"]
 passwords = ["bv#@!", "mayan$%!", "govin&^#", "narayan@!#"]
 # password_hint:username_digits_shifted
-hashed_passwords = stauth.Hasher(
-    ['bv321', 'mayan$%!', 'govin&^#', 'narayan@!#']).generate()
+
 # file_path = Path(__file__).parent / "hashed_pw.pkl"
 file_path = Path(__file__).parent / "config.yaml"
 with open('../config.yaml') as file:
