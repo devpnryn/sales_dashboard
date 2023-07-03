@@ -4,6 +4,7 @@ import numpy as np
 # import seaborn as sns
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error
+import os
 
 
 class Analytics:
@@ -40,9 +41,14 @@ class Analytics:
         df_and_future = Analytics.create_features(df_and_future)
         future_w_features = df_and_future.query('isFuture').copy()
         reg = xgb.XGBRegressor(enable_categorical=True)
-        reg.load_model(f'models/xg_model_{selected_product}.json')
+        cwd = os.getcwd()
+        model_name = f'models/xg_model_{selected_product}.json'
+        if os.path.exists(model_name):
+            reg.load_model(model_name)
+            # print(f'found model at {model_name}')
+        else:
+            reg.load_model('models/xg_model_v3.json')
         tobe_predicted_on = future_w_features[Analytics.FEATURES]
-        tobe_predicted_on['Special Day']
         tobe_predicted_on['pred'] = reg.predict(tobe_predicted_on)
 
         # return future_w_features
