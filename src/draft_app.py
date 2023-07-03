@@ -330,7 +330,7 @@ if authentication_status:
 
                 predictions = Analytics.predict_data(
                     st.session_state['df_excel'], chosen_product, start_date, '2023-12-30')
-                st.write(predictions)
+                # st.write(predictions)
 
                 if 'predictions' not in st.session_state:
                     st.session_state['predictions'] = predictions
