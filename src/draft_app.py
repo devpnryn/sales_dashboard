@@ -7,10 +7,12 @@ from streamlit_extras.app_logo import add_logo
 from streamlit_option_menu import option_menu
 import plotly.figure_factory as ff
 import os
+import datetime
 
 import streamlit_authenticator as stauth
 
 import base64
+import json
 import yaml
 from yaml.loader import SafeLoader
 
@@ -22,6 +24,34 @@ from analytics import Analytics
 # setting favicon and browser tab title
 st.set_page_config(page_title='Retail Forecast',
                    page_icon=':bar_chart:', layout='centered')
+
+
+@st.cache_data
+def load_logo(file_name):
+    with open(file_name, "r") as f:
+        data = json.load(f)
+        return data
+
+
+def draw_forecast(data, product_name, start_date, end_date):
+    data = data.loc[(data.index > start_date) & (data.index < end_date)]
+    # st.write(data)
+    fig = px.line(data, y='pred',
+                  title=f'{product_name} forecast', labels={"index": 'Monthly', "pred": 'Quantity'})
+    st.plotly_chart(fig)
+
+
+def draw_piechart(data):
+
+    # Group the data by product and calculate the total sales
+    sales_data = data.groupby('Product')['Quantity'].sum().reset_index()
+
+    # Create a pie chart using plotly.express
+    fig = px.pie(sales_data, values='Quantity',
+                 names='Product')
+
+    # Display the chart using Streamlit
+    st.plotly_chart(fig)
 
 
 cwd = os.getcwd()
@@ -40,8 +70,10 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 
 if authentication_status == False:
     st.error("Username or Password is Incorrect")
-    st_lottie(
-        "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
+    data = load_logo("/assets/hello.json")
+    st_lottie(data)
+    # st_lottie(
+    #     "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 
 if authentication_status == None:
     st.warning("Please enter your username and password")
@@ -52,8 +84,9 @@ if authentication_status:
     # setting up Page Title
     st.markdown('## Retail Forecast')
     with st.sidebar:
-        st_lottie(
-            "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
+        st_lottie(load_logo("assets/hello.json"))
+        # st_lottie(
+        #     "https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
     # --- VARIABLES ---
 
     nav_menu = st.container()
@@ -190,11 +223,9 @@ if authentication_status:
         with nav_menu:
             selected = option_menu(
                 menu_title=None,
-                options=["Key Insights", "More Analytics"],
+                options=["Key Insights", "Forecasting"],
                 icons=["pencil-fill", "bar-chart-fill"],
                 orientation="horizontal")
-            # -- store the dataframe in session for the future workflow..
-            # if st.session_state['current_tab'] is None:
             st.session_state['current_tab'] = selected
 
             # --- UI under Key insights Tab --- #
@@ -217,6 +248,8 @@ if authentication_status:
 
                 # KPI-2: No.of unique products sold
                 products = df['Product'].unique()
+                if 'unique_products' not in st.session_state:
+                    st.session_state['unique_products'] = products
                 kpi2.metric(
                     label="Products 🎳",
                     value=products.size,
@@ -279,18 +312,31 @@ if authentication_status:
 
                 # ----2. Fast selling products
 
-                st.subheader('Fast selling products')
+                st.subheader('Product-wise Sales')
+                draw_piechart(st.session_state['df_excel'])
 
             # --- UI under Analytics Tab --- #
             # predictions shown here
-            elif st.session_state['current_tab'] == "More Analytics":
-                st.markdown('### analytics')
+            elif st.session_state['current_tab'] == "Forecasting":
+                st.markdown('### Get Forecast')
 
-                # st.write(df)
+                product, date = st.columns(2)
+                with product:
+                    chosen_product = st.selectbox('Select Prodcut',
+                                                  options=st.session_state['unique_products'])
+                with date:
+                    start_date = st.date_input(
+                        'select start date', min_value=datetime.date(2023, 7, 3), max_value=datetime.date(2023, 12, 30), value=datetime.date(2023, 7, 4)).strftime("%Y-%m-%d")
 
-                st.write(Analytics.predict_data(
-                    df, '2018-08-03', '2019-08-01'))
-            #  --- Filters with options --- #
+                predictions = Analytics.predict_data(
+                    st.session_state['df_excel'], chosen_product, start_date, '2023-12-30')
+                st.write(predictions)
+
+                if 'predictions' not in st.session_state:
+                    st.session_state['predictions'] = predictions
+                # st.write('chosen product', chosen_product)
+                draw_forecast(
+                    data=st.session_state['predictions'], product_name=chosen_product, start_date=start_date, end_date='2023-12-30')
 
     # ---- HIDE STREAMLIT STYLE ----
     hide_st_style = """

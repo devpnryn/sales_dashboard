@@ -11,10 +11,6 @@ class Analytics:
         pass
     FEATURES = ['dayofweek', 'quarter', 'month',
                 'dayofyear', 'year', 'Special Day']
-    # def load_model():
-    #     # To load the trained model from local..
-    #     reg_v2 = xgb.XGBRFRegressor()
-    #     reg_v2.load_model('xg_model_v2.json')
 
     def create_features(df):
         """
@@ -28,19 +24,27 @@ class Analytics:
         df['year'] = df.index.year
         return df
 
-    def predict_data(df, start_date, end_date) -> pd.DataFrame:
+    def predict_data(df, selected_product, start_date, end_date) -> pd.DataFrame:
         # Create future dataframe
-        future = pd.date_range(start=start_date, end=end_date, freq='1d')
+        future = pd.date_range(start=start_date, end=end_date, freq='D')
         future_df = pd.DataFrame(index=future)
         future_df['isFuture'] = True
+
+        # filter the data by product name
+        df = df[df.Product == selected_product]
+        # print(df)
         df['isFuture'] = False
         df_and_future = pd.concat([df, future_df])
+        df_and_future['Special Day'] = df_and_future['Special Day'].astype(
+            'boolean')
         df_and_future = Analytics.create_features(df_and_future)
-        # df_and_future = add_lags(df_and_future)
         future_w_features = df_and_future.query('isFuture').copy()
-        reg = xgb.XGBRFRegressor()
-        reg.load_model('models/xg_model_v3.json')
-        future_w_features['pred'] = reg.predict(
-            future_w_features[Analytics.FEATURES])
+        reg = xgb.XGBRegressor(enable_categorical=True)
+        reg.load_model(f'models/xg_model_{selected_product}.json')
+        tobe_predicted_on = future_w_features[Analytics.FEATURES]
+        tobe_predicted_on['Special Day']
+        tobe_predicted_on['pred'] = reg.predict(tobe_predicted_on)
 
-        return future_w_features
+        # return future_w_features
+        tobe_predicted_on['pred'] = tobe_predicted_on['pred'].apply(np.int64)
+        return tobe_predicted_on
