@@ -43,11 +43,12 @@ class Analytics:
         reg = xgb.XGBRegressor(enable_categorical=True)
         cwd = os.getcwd()
         model_name = f'models/xg_model_{selected_product}.json'
+        # reg.load_model(model_name)
         if os.path.exists(model_name):
             reg.load_model(model_name)
-            # print(f'found model at {model_name}')
+            print(f'found model at {model_name}')
         else:
-            reg.load_model('models/xg_model_v3.json')
+            reg.load_model('models/xg_model_v2.json')
         tobe_predicted_on = future_w_features[Analytics.FEATURES]
         tobe_predicted_on['pred'] = reg.predict(tobe_predicted_on)
 

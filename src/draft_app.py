@@ -346,4 +346,4 @@ if authentication_status:
                 header {visibility: hidden;}
                 </style>
                 """
-    # st.markdown(hide_st_style, unsafe_allow_html=True)
+    st.markdown(hide_st_style, unsafe_allow_html=True)
